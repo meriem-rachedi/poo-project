@@ -1,3 +1,3 @@
-public class medecin {
+public class Medecin {
     
 }

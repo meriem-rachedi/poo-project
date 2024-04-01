@@ -1,3 +1,3 @@
-public class dossier {
+public class Dossier {
     
 }
