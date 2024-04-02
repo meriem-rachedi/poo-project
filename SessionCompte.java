@@ -13,6 +13,11 @@ public class SessionCompte {
         this.mdp = mdp;
         this.patient = patient;
     }
+
+    public SessionCompte(String utilisateur, String mdp) {
+        this.utilisateur = utilisateur;
+        this.mdp = mdp;
+    }
     
     //Méthodes
     //Ajouter un compte pour le sauvgarder
@@ -61,16 +66,19 @@ public class SessionCompte {
     }
 
     //Création d'un npuveau compte
-    public void créerCompte(ArrayList<SessionCompte> listeCompte, String utilisateur, String mdp){
+    public boolean creerCompte(ArrayList<SessionCompte> listeCompte, String utilisateur, String mdp){
         if(rechercheUtil(listeCompte, utilisateur)){
             System.out.println("Nom d'utilisateur existe déjà");
+            return false;
         }
         else{
             if(mdp.length()<8){
                 System.out.println("Le mot de passe doit contenir au moins 8 caractères, réessayez");
+                return false;
             }
             else{
                 System.out.println("Compte créé, étape suivante :");
+                return true;
             }
         }
     }
