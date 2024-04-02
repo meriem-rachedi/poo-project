@@ -117,7 +117,7 @@ public void afficher() {
         }
     
         // Méthode pour afficher le dossier d'un patient donné 
-        public static void afficherDossierSansConsultations(ArrayList<Dossier> LD, String immatriculePatient) {
+        public static void rechercherDossier(ArrayList<Dossier> LD, String immatriculePatient) {
             boolean found = false;
             for (Dossier dossier : LD) {
                 if (dossier.getPatient().getImmatricule().equals(immatriculePatient)) {

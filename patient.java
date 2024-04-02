@@ -59,15 +59,17 @@ public class Patient {
         }
     
 
-        public static void ajoutPatient(String nom, String prenom, String email, String gender, String maladies, int numtel, Date birthdate, String addresse, List<Patient> patientList) {
-            Patient patient = new Patient(nom, prenom, email, gender, maladies, numtel, birthdate, addresse);
-            patientList.add(patient); // Ajouter les informations des patients dans une liste
-            System.out.println("Patient ajouté avec succès. Matricule : " + patient.getImmatricule());
-        }
+    // Méthode pour ajouter un nouveau patient à la liste des patients
+    public void ajoutPatient(List<Patient> patientList) {
+        // Créer un nouveau patient en utilisant les attributs de la classe actuelle
+        Patient patient = new Patient(this.nom, this.prenom, this.email, this.gender, this.maladies, this.numtel, this.birthdate, this.adresse);
+        patientList.add(patient); // Ajouter le patient à la liste
+        System.out.println("Patient ajouté avec succès. Matricule : " + patient.getImmatricule());
+    }
         
 
 // Méthode pour obtenir les immatricules des patients avec un nom donné
-    public static void obtenirImmatriculesParNom(String nomRecherche, List<Patient> patientList) {
+    public void obtenirImmatriculesParNom(String nomRecherche, List<Patient> patientList) {
         boolean found = false; 
         System.out.println("Immatricules des patients avec le nom '" + nomRecherche + "':");
         for (Patient patient : patientList) {
