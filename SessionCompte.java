@@ -21,16 +21,29 @@ public class SessionCompte {
     //Méthodes
     //Ajouter un compte pour le sauvegarder
     public void ajoutCompte(List<SessionCompte> listeCompte, SessionCompte compte){
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte n'a été ajouté.");
+            return;
+        }
         listeCompte.add(compte);
     }
 
     //Supprimer un compte
     public void supprimerCompte(List<SessionCompte> listeCompte, String utilisateur) {
         //Supprime le compte de l'utilisateur de la liste
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte à supprimer.");
+            return;
+        }
         listeCompte.removeIf(compte -> compte.getUtilisateur().equals(utilisateur));
     }
 
+    //Modifier les informations du patient d'un compte
     public void modifInfoC(List<SessionCompte> listeCompte, Patient patientToReplace, Patient newPatient) {
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte à modifier.");
+            return;
+        }
         for (SessionCompte compte : listeCompte) {
             if (compte.getPatient() == patientToReplace) {
                 compte.setPatient(newPatient);
@@ -41,7 +54,12 @@ public class SessionCompte {
     }
     
 
+    //Retourner le patient associé à un compte
     public Patient rechercherPatientCompte(List<SessionCompte> listeCompte) {
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte à rechercher.");
+            return null;
+        }
         for(SessionCompte compte : listeCompte){
             if(compte.getUtilisateur().equals(utilisateur)) {
                 return compte.getPatient(); // Retourne le patient associé à l'utilisateur
@@ -53,18 +71,26 @@ public class SessionCompte {
 
     //Rechercher si un nom d'utilisateur existe
     public boolean rechercheUtil(List<SessionCompte> listeCompte, String utilisateur){
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte à rechercher.");
+            return false;
+        }
         for(SessionCompte compte : listeCompte){
-            if(compte.getUtilisateur().equals(utilisateur)) {
-                return true;
+            if(compte.getUtilisateur().equals(utilisateur)) { //Chercher le nom d'utilisateur
+                return true; //nom d'utilisateur trouvé
             }
         }
         return false;
     }
 
-    //Vérifier si le mot de passe est correct
+    //Vérifier si le mot de passe du compte est correct
     public boolean verifMDP(List<SessionCompte> listeCompte, String utilisateur, String mdp){
+        if (listeCompte.isEmpty()) {
+            System.out.println("Liste vide : aucun compte à vérifier.");
+            return false;
+        }
         for(SessionCompte compte : listeCompte){
-            if(compte.getUtilisateur().equals(utilisateur) && compte.getMdp().equals(mdp)) {
+            if(compte.getUtilisateur().equals(utilisateur) && compte.getMdp().equals(mdp)) { //si le mot de passe est correcte pour un certain nom d'utilisateur
                 return true;
             }
         }
@@ -76,11 +102,11 @@ public class SessionCompte {
         if(listeCompte.isEmpty()) {
             System.out.println("Aucun compte n'a été créé.");
             return false;
-        } else if(!rechercheUtil(listeCompte, utilisateur)) {
+        } else if(!rechercheUtil(listeCompte, utilisateur)) { //vérifier si le nom d'utilisateur entrer est correcte
             System.out.println("Cet utilisateur n'existe pas");
             return false;
         } else {
-            if (!verifMDP(listeCompte, utilisateur, mdp)) {
+            if (!verifMDP(listeCompte, utilisateur, mdp)) { //vérifier si le mdp entrer est correcte
                 System.out.println("Mot de passe incorrect");
                 return false;
             } else {
@@ -92,10 +118,10 @@ public class SessionCompte {
 
     //Création d'un nouveau compte
     public boolean creerCompte(List<SessionCompte> listeCompte){
-        if(rechercheUtil(listeCompte, utilisateur)){
+        if(rechercheUtil(listeCompte, utilisateur)){ //voir si le nom d'utilisateur est valable
             System.out.println("Nom d'utilisateur existe déjà");
             return false;
-        } else if(mdp.length() < 8){
+        } else if(mdp.length() < 8){ //verif mdp
             System.out.println("Le mot de passe doit contenir au moins 8 caractères, réessayez");
             return false;
         } else {

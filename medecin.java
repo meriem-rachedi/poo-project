@@ -13,6 +13,10 @@ public class Medecin {
         this.status = status;
     }
     
+    public Medecin(String status) {
+        this.status = status;
+    }
+
     //Getteurs et Setteurs
     public String getNom() {
         return nom;
