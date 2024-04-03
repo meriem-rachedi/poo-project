@@ -110,18 +110,18 @@ public class Patient {
         }
        
          //Méthode : modifier les informations du patient
-        public static void modifinfo (String immatricule,String nom, String prenom, String email, String gender, String maladies, int numtel,Date birthdate,String addresse,List<Patient> patientList) {
-          for (Patient patient : patientList) {
-            if (patient.getImmatricule().equalsIgnoreCase(immatricule)) //test si l'immatricule qu'on cherche existe dans la liste pour pouvoir modifier ses informations
+        public  void modifinfo (List<Patient> patientList, Patient patient2) {
+          for (Patient patient1 : patientList) {
+            if (patient1.getImmatricule().equals(immatricule)) //test si l'immatricule qu'on cherche existe dans la liste pour pouvoir modifier ses informations
             { //insertion des nouvelles informations modifiées
-              patient.setNom(nom);
-              patient.setPrenom(prenom);
-              patient.setEmail(email);
-              patient.setGender(gender);
-              patient.setAddresse(addresse);
-              patient.setBirthdate(birthdate);
-              patient.setNumtel(numtel);
-              patient.setMaladies(maladies);
+              patient1.setNom(patient2.getNom());
+              patient1.setPrenom(patient2.getPrenom());
+              patient1.setEmail(patient2.getEmail());
+              patient1.setGender(patient2.getGender());
+              patient1.setAddresse(patient2.getAddresse());
+              patient1.setBirthdate(patient2.getBirthdate());
+              patient1.setNumtel(patient2.getNumtel());
+              patient1.setMaladies(patient2.getMaladies());
 
                 System.out.println("Patient information modified successfully.");
                 return; // Exit method after modifying the patient's information

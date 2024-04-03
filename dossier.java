@@ -37,17 +37,17 @@ public class Dossier {
         }
 
         //Méthode pour ajouter une consultation à une liste
-        public static void ajouterConsultations(ArrayList<Consultations> LC, Consultations consultation) {
+        public  void ajouterConsultations(ArrayList<Consultations> LC, Consultations consultation) {
             LC.add(consultation);
         }
 
         //Méthode pour supprimer une consultation à une liste
-        public static void supprimerConsultations(ArrayList<Consultations> LC, Date dateConsultation) {
+        public  void supprimerConsultations(ArrayList<Consultations> LC, Date dateConsultation) {
             LC.removeIf(consultation -> consultation.getDate().equals(dateConsultation));
         }
 
         //Méthode pour chercher les consultation d'une date donnée
-        public static void rechercherConsultationsParDate(ArrayList<Consultations> LC, Date dateConsultation) {
+        public  void rechercherConsultationsParDate(ArrayList<Consultations> LC, Date dateConsultation) {
             boolean found = false;
             for (Consultations consultation : LC) {
                 if (consultation.getDate().equals(dateConsultation)) {
@@ -107,21 +107,21 @@ public void afficher() {
     }
 }
         // Méthode pour ajouter un dossier à LD
-        public static void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
+        public  void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
             LD.add(dossier);
         }
     
         // Méthode pour supprimer un dossier de LD
-        public static void supprimerDossier(ArrayList<Dossier> LD, String immatriculePatient) {
+        public  void supprimerDossier(ArrayList<Dossier> LD, String immatriculePatient) {
             LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(immatriculePatient));
         }
     
         // Méthode pour afficher le dossier d'un patient donné 
-        public static void rechercherDossier(ArrayList<Dossier> LD, String immatriculePatient) {
+        public  void rechercherDossier(ArrayList<Dossier> LD) {
             boolean found = false;
             for (Dossier dossier : LD) {
-                if (dossier.getPatient().getImmatricule().equals(immatriculePatient)) {
-                    System.out.println("Dossier du patient immatriculé " + immatriculePatient);
+                if (dossier.getPatient().getImmatricule().equals(patient.getImmatricule())) {
+                    System.out.println("Dossier du patient immatriculé " + patient.getImmatricule());
                     // Afficher les détails du dossier sans les consultations
                     dossier.afficher();
                     found = true;
@@ -129,7 +129,7 @@ public void afficher() {
                 }
             }
             if (!found) {
-                System.out.println("Aucun dossier trouvé pour le patient immatriculé " + immatriculePatient);
+                System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
             }
         }
 
