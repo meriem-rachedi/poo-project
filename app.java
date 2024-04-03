@@ -219,6 +219,173 @@ public class app {
                 if(check.equals("S")) sortie=true;
             }  
          }
-        scanner.close();
+        
+        //Interface médecin
+        if (choix.equals("M")) {
+            //le médecin rentre ces informations
+            System.out.println("Bonjour docteur rentrez vos informations :");
+            System.out.println("Entrez votre nom : ");
+            String nom = scanner.next();
+            System.out.println("Entrez votre prenom : ");
+            String prenom = scanner.next();
+            System.out.println("Tapez P si vous étes le médecin principale \n Taprez R si vous étes le médecin remplacant : ");
+            String status = scanner.next();
+            medecin = new Medecin(nom,prenom,status);
+            Boolean sortie = false; //Variable pour sortie de la boucle
+            while (sortie == false) {
+                //Serive à proposer
+                System.out.println("Quelle service voulez vous faire aujourd'hui ?");
+                System.out.println("Tapez R pour remplire le dossier d'un patient");
+                System.out.println("Tapez D pour chercher afficher le dossier d'un patient");
+                System.out.println("Tapez A pour ajouter une consultation au dossier d'un patient");
+                System.out.println("Tapez S pour supprimez le dossier d'un patient");
+                System.out.println("Tapez P pour chercher un patient");
+                System.out.println("Tapez V pour voir vos rendez-vous");
+                System.out.println("Tapez RR pour rechercher les rendez-vous d'une certaine date");
+                System.out.println("Tapez D si vous souhaitez vous déconnecter");
+                choix = scanner.next();
+
+                if (choix.equals("R")) {
+                    //Chercher le patient dont le médecin veut créer un dossier pour
+                    System.out.println("Donnez le nom du patient");
+                    String nomP = scanner.next();
+                    Patient patient = new Patient();
+                    patient.obtenirImmatriculesParNom(nomP,LP);
+                    System.out.println("Voila tous les patients trpuvés"); //En cas où pluisieur patient on le méme nom il choisis un matricule
+                    System.out.println("Tapez le matricule du patient choisis");
+                    String mat = scanner.next();
+                    patient = Patient.recherchePatient(mat,LP); //obtenir les informations du patient
+                    System.out.println("Donnez le groupe sanguin du patient :");
+                    String gs = scanner.next();
+                    System.out.println("Donnez les informations de la consultations ");
+                    System.out.println("Donnez votre diagnostic : ");
+                    String diag = scanner.next();
+                    System.out.print("Dannez la date de la consultation : ");
+                    String date = scanner.next();
+                    Date dateC = null;
+                    try {
+                        dateC = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    Dossier dossier = new Dossier();
+                    Dossier.Consultations consultation = dossier.new Consultations();
+                    List<String> LM = new ArrayList<String>();
+                    //Remplire la variable consultations
+                    consultation.setDate(dateC);
+                    consultation.setDiagnostic(diag);
+                    consultation.setMedicamentsPrescrits(LM);
+                    //Remplir la liste des médicaments
+                    System.out.println("Donnez le nombre de médicament à préscrire");
+                    int n = scanner.nextInt();
+                    for(int i = 1; i<=n; i++){
+                        System.out.println("Donnez le médicament "+ i);
+                        String medoc = scanner.next();
+                        consultation.ajouterMedicamentPrescrit(medoc);
+                    }
+                    //Créations de l'objet dossier et l'ajouté au tableau LD pour le sauvgarder
+                    ArrayList<Dossier.Consultations> Lcons = new ArrayList<Dossier.Consultations>();
+                    consultation.ajouterConsultations(Lcons, consultation);
+                    dossier = new Dossier(patient, gs, Lcons);
+                    dossier.ajouterDossier(LD, dossier);
+                }
+                if (choix.equals("D")) {
+                    //Recherche du patient 
+                    System.out.println("Donnez le nom du patient");
+                    String nomP = scanner.next();
+                    Patient patient = new Patient();
+                    patient.obtenirImmatriculesParNom(nomP,LP);
+                    System.out.println("Voila tous les patients trouvés");
+                    System.out.println("Tapez le matricule du patient choisis");
+                    String mat = scanner.next();
+                    patient = Patient.recherchePatient(mat,LP);
+                    //Création d'un dossier avec le patient pour chercher le dossier dans le tableau et l'afficher
+                    Dossier dossier = new Dossier(patient);
+                    dossier.rechercherDossier(LD);
+                }
+                if (choix.equals("A")) {
+                    //Chercher le patient voulue
+                    System.out.println("Donnez le nom du patient");
+                    String nomP = scanner.next();
+                    Patient patient = new Patient();
+                    patient.obtenirImmatriculesParNom(nomP,LP);
+                    System.out.println("Voila tous les patients avec le nom" + nomP);
+                    System.out.println("Tapez le matricule du patient choisis");
+                    String mat = scanner.next();
+                    patient = Patient.recherchePatient(mat,LP);
+                    //Creation de la nouvelle consultation
+                    System.out.println("Donnez les informations de la consultations ");
+                    System.out.println("Donnez votre diagnostic : ");
+                    String diag = scanner.next();
+                    System.out.print("Dannez la date de la consultation : ");
+                    String date = scanner.next();
+                    Date dateC = null;
+                    try {
+                       dateC = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    Dossier dossier = new Dossier();
+                    Dossier.Consultations consultation = dossier.new Consultations();
+                    List<String> LM = new ArrayList<String>();
+                    consultation.setDate(dateC);
+                    consultation.setDiagnostic(diag);
+                    consultation.setMedicamentsPrescrits(LM);
+                    System.out.println("Donnez le nombre de médicament à préscrire");
+                    int n = scanner.nextInt();
+                    for(int i = 1; i<=n; i++){
+                        System.out.println("Donnez le médicament "+ i);
+                        String medoc = scanner.next();
+                        consultation.ajouterMedicamentPrescrit(medoc);
+                    } 
+                    //Ajout de la consultation dans la liste de consultation du dossier
+                    dossier.ajoutConsultADossier(LD, patient, consultation);
+                }
+                if (choix.equals("S")) {
+                    System.out.println("Donnez le nom du patient");
+                    String nomP = scanner.next();
+                    Patient patient = new Patient();
+                    patient.obtenirImmatriculesParNom(nomP,LP);
+                    System.out.println("Voila tous les patients avec le nom" + nomP);
+                    System.out.println("Tapez le matricule du patient choisis");
+                    String mat = scanner.next();
+                    patient = Patient.recherchePatient(mat,LP);
+                    Dossier dossier = new Dossier(patient);
+                    dossier.supprimerDossier(LD);
+                }
+                if (choix.equals("P")) {
+                    System.out.println("Donnez le nom du patient");
+                    String nomP = scanner.next();
+                    Patient patient = new Patient();
+                    patient.obtenirImmatriculesParNom(nomP,LP);
+                    System.out.println("Voila tous les patients avec le nom" + nomP);
+                    System.out.println("Tapez le matricule du patient choisis");
+                    String mat = scanner.next();
+                    Patient.recherchePatient(mat, LP);
+                }
+                if (choix.equals("V")) {
+                    Rendezvous rendezvous = new Rendezvous(medecin);
+                    rendezvous.rechercherendezvousM(LR);
+                }
+                if (choix.equals("RR")) {
+                    System.out.println("Donnez la date au format dd/mm/yyyy");
+                    String date = scanner.next();
+                    Date dateC = null;
+                    try {
+                        dateC = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    Rendezvous rendezvous = new Rendezvous(dateC);
+                    rendezvous.rechercherendezvousDate(LR);
+                }
+                if (choix.equals("D")) {
+                    sortie = true;
+                }
+            }
+        }
     }
 }
