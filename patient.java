@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 
-public class Patient {
+public class Patient implements Serializable {
     
     // Déclaration des attributs
     private String nom;

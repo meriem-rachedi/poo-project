@@ -13,6 +13,9 @@ public class app {
             ArrayList<Dossier> LD = new ArrayList<>();
             ArrayList<Rendezvous> LR = new ArrayList<>();
 
+         // Charger les données sauvegardées (si disponibles)
+        DataHandler.loadData(LD, LR, LP, LC, "data.ser");
+
             String utilisateur = "";
             String mdp="";
             SessionCompte compte = null;
@@ -522,6 +525,9 @@ public class app {
                 if(choix.equals("D")) sortie=true;
               }
             }
+            
+            // À la fin de votre programme, sauvegarder les données
+            DataHandler.saveData(LD, LR, LP, LC, "data.ser");
             
             scanner.close();
         }

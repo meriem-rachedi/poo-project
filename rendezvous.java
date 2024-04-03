@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Rendezvous {
+public class Rendezvous implements Serializable{
 
     private Patient patient;
     private Medecin medecin;

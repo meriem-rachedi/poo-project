@@ -1,4 +1,6 @@
-public class Medecin {
+import java.io.Serializable;
+
+public class Medecin implements Serializable {
     private String nom;
     private String prenom;
     private String status;

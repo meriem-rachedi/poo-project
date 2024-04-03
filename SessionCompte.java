@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.List;
 
-public class SessionCompte {
+public class SessionCompte implements Serializable{
     private String utilisateur;
     private String mdp;
     private Patient patient;
