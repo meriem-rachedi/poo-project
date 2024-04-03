@@ -1,5 +1,6 @@
 import java.util.List;        // est une interface qui définit les comportements attendus d'une liste.
 import java.util.Date;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Dossier {
@@ -8,7 +9,7 @@ public class Dossier {
     private String groupeSanguin;    
 
     //Classe de consultation pour créer une liste de touts les consultation d'un patient
-    public class Consultations{
+    public class Consultations implements Serializable {
         private String diagnostic;
         private Date date;
         private List<String> medicamentsPrescrits;
