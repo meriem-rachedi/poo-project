@@ -26,9 +26,14 @@ public class Dossier {
             medicamentsPrescrits.add(medicament);
         }
 
-        public void afficher() {            //Cette méthode affiche la consultation
-            System.out.println("Le diagnostic de la consultation du " + date + " est " + diagnostic); // Ajouter le signe "+" après date
+        //Afficher les informations d'une consultations
+        public void afficher() {
+            System.out.println("Le diagnostic de la consultation du " + date + " est " + diagnostic);
             System.out.println("Médicaments prescrits:");
+            if (medicamentsPrescrits.isEmpty()) {
+                System.out.println("Aucun médicament prescrit.");
+                return;
+            }
             for (String medicament : medicamentsPrescrits) {
                 System.out.println("- " + medicament);
             }
@@ -93,25 +98,27 @@ public class Dossier {
         this.patient = patient;
     }
 
+    //Ajouer une nouvelle consulatation au dossier d'un patient dans la liste des consultations
     public void ajoutConsultADossier(ArrayList<Dossier> LD, Patient patient, Consultations consultation) {
-        // Rechercher le dossier du patient
         for (Dossier dossier : LD) {
             if (dossier.getPatient().equals(patient)) {
-                // Ajouter la consultation à la liste des consultations du dossier du patient
                 dossier.getConsultation().add(consultation);
                 System.out.println("Consultation ajoutée au dossier du patient immatriculé " + patient.getImmatricule());
-                return; // Sortir de la boucle une fois que la consultation a été ajoutée
+                return;
             }
         }
-        // Si aucun dossier n'est trouvé pour le patient
         System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
-    }    
+    }  
 
     // Méthode pour afficher les détails du dossier
     public void afficher() {
         System.out.println("Groupe sanguin : " + groupeSanguin);
         System.out.println("Consultations : ");
-        for (Consultations consultation : consultation) { 
+        if (consultation.isEmpty()) {
+            System.out.println("Aucune consultation disponible.");
+            return;
+        }
+        for (Consultations consultation : consultation) {
             consultation.afficher();
         }
     }
@@ -121,17 +128,24 @@ public class Dossier {
         }
     
         // Méthode pour supprimer un dossier de LD
-        public  void supprimerDossier(ArrayList<Dossier> LD) {
+        public void supprimerDossier(ArrayList<Dossier> LD) {
+            if (LD.isEmpty()) {
+                System.out.println("La liste des dossiers est vide. Aucun dossier à supprimer.");
+                return;
+            }
             LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(patient.getImmatricule()));
         }
     
         // Méthode pour afficher le dossier d'un patient donné 
         public void rechercherDossier(ArrayList<Dossier> LD) {
+            if (LD.isEmpty()) {
+                System.out.println("La liste des dossiers est vide. Aucun dossier à rechercher.");
+                return;
+            }
             boolean found = false;
             for (Dossier dossier : LD) {
                 if (dossier.getPatient().getImmatricule().equals(patient.getImmatricule())) {
                     System.out.println("Dossier du patient immatriculé " + patient.getImmatricule());
-                    // Afficher les détails du dossier sans les consultations
                     dossier.afficher();
                     found = true;
                     break;
@@ -140,6 +154,22 @@ public class Dossier {
             if (!found) {
                 System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
             }
+        }
+
+        //Modifier les information du patient dans le dossier 
+        public static void modifPatient(ArrayList<Dossier> LD, Patient patient1, Patient patient2) {
+            if (LD.isEmpty()) {
+                System.out.println("La liste des dossiers est vide. Aucune modification effectuée.");
+                return;
+            }
+            for (Dossier dossier : LD) {
+                if (dossier.getPatient().equals(patient1)) {
+                    dossier.setPatient(patient2);
+                    System.out.println("Informations du patient modifiées dans le dossier.");
+                    return;
+                }
+            }
+            System.out.println("Aucun dossier trouvé pour le patient " + patient1.getImmatricule());
         }
 
         //Getteur et Setteur
