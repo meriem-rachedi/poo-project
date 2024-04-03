@@ -12,6 +12,7 @@ public class app {
             List<Patient> LP = new ArrayList<>();
             ArrayList<Dossier> LD = new ArrayList<>();
             ArrayList<Rendezvous> LR = new ArrayList<>();
+
             String utilisateur = "";
             String mdp="";
             SessionCompte compte = null;
@@ -406,9 +407,122 @@ public class app {
             }
     
             if (choix.equals("S")) {
-                
-            }
+                Boolean sortie = false; //Variable pour sortie de la boucle
+              while (sortie == false) {
+                System.out.println("Bonjour");
+                System.out.println("quelle service veut faire aujourd'hui ? ");
+                System.out.println("Tapez R pour ajouter un rendez-vous");
+                System.out.println("Tapez S pour supprimez un patient");
+                System.out.println("Tapez A pour annuler une rendez-vous");
+                System.out.println("Tapez MR pour modifier un rendez-vous");
+                System.out.println("Tapez D si vous souhaitez vous déconnecter");
 
+                choix = scanner.next();
+
+                if (choix.equals("R")) {
+                    System.out.println("Donnez le nom du patient");
+                        String nomP = scanner.next();
+                        Patient patient = new Patient();
+                        patient.obtenirImmatriculesParNom(nomP,LP);
+                        System.out.println("Voila tous les patients trouvés"); //En cas où pluisieur patient on le méme nom il choisis un matricule
+                        System.out.println("Tapez le matricule du patient choisis");
+                        String mat = scanner.next();
+                        patient = Patient.recherchePatient(mat,LP); //obtenir les informations du patient
+
+                    System.out.println("Donnez le jour du rendez-vous format dd/mm//yyyy ");
+                        String date = scanner.next();
+                        Date dateR = null;
+                        try {
+                            dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                        } catch (ParseException e) {
+                            System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                            return;
+                        }
+                        System.out.println("Donnez l'heure du rendez-vous entre 8h et 16h");
+                        String heure = scanner.next();
+                        System.out.println("Tapez P pour prendre un rendez-vous avec le docteur Principale \n Tapez R pour le docteur Remplacant");
+                        String status = scanner.next();
+                        medecin = new Medecin(status);
+                        //Sauvgarde du rendez-vous dans la liste LR
+                        Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
+                        Rendezvous.ajouterRen(LR, rendezvous);
+                }
+                if (choix.equals("S")) {
+                    System.out.println("Donnez le nom du patient");
+                        String nomP = scanner.next();
+                        Patient patient = new Patient();
+                        patient.obtenirImmatriculesParNom(nomP,LP);
+                        System.out.println("Voila tous les patients trpuvés"); //En cas où pluisieur patient on le méme nom il choisis un matricule
+                        System.out.println("Tapez le matricule du patient choisis");
+                        String mat = scanner.next();
+                        patient = Patient.recherchePatient(mat,LP); //obtenir les informations du patient
+                        Patient.suppPatient(mat, LP);
+                }
+                if (choix.equals("A")) {
+                    System.out.println("Donnez le nom du patient");
+                        String nomP = scanner.next();
+                        Patient patient = new Patient();
+                        patient.obtenirImmatriculesParNom(nomP,LP);
+                        System.out.println("Voila tous les patients trpuvés"); //En cas où pluisieur patient on le méme nom il choisis un matricule
+                        System.out.println("Tapez le matricule du patient choisis");
+                        String mat = scanner.next();
+                        patient = Patient.recherchePatient(mat,LP); //obtenir les informations du patient
+                    //Saisir les informations du rendez vous
+                    System.out.println("Donnez le jour du rendez-vous a annuler format dd/mm//yyyy ");
+                    String date = scanner.next();
+                    Date dateR = null;
+                    try {
+                        dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    System.out.println("Donnez l'heure du rendez-vous");
+                    String heure = scanner.next();
+                    //Création de l'objet rendez vous, le chercher dans la liste, et le suuprimez
+                    Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
+                    rendezvous.supprimerRen(LR);
+                }
+                if (choix.equals("MR")) {
+                    System.out.println("Donnez le nom du patient");
+                        String nomP = scanner.next();
+                        Patient patient = new Patient();
+                        patient.obtenirImmatriculesParNom(nomP,LP);
+                        System.out.println("Voila tous les patients trpuvés"); //En cas où pluisieur patient on le méme nom il choisis un matricule
+                        System.out.println("Tapez le matricule du patient choisis");
+                        String mat = scanner.next();
+                        patient = Patient.recherchePatient(mat,LP); //obtenir les informations du patient
+                     //Entrez les nouvelle information du rendez vous
+                     System.out.println("Donnez le jour du rendez-vous que vous souhaitez modfier format dd/mm//yyyy ");
+                     String date = scanner.next();
+                     Date dateR = null;
+                     try {
+                         dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                     } catch (ParseException e) {
+                         System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                         return;
+                     }
+                     System.out.println("Donnez l'heure du rendez-vous");
+                     String heure = scanner.next();
+                     System.out.println("Donnez la nouvelle date format dd/mm//yyyy ");
+                     String date1 = scanner.next();
+                     Date dateR1 = null;
+                     try {
+                         dateR1 = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
+                     } catch (ParseException e) {
+                         System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                         return;
+                     }
+                     System.out.println("Donnez l'heure du rendez-vous");
+                     String heure1 = scanner.next();
+                     //Création de l'objet rendezvous à changer
+                     Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR1, heure1);
+                     rendezvous.modifierRen(LR, dateR, heure); //Trouvez le rendezvous et le changer
+                    }
+                if(choix.equals("D")) sortie=true;
+              }
+            }
+            
             scanner.close();
         }
     }
