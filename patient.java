@@ -74,6 +74,7 @@ public class Patient {
         System.out.println("Immatricules des patients avec le nom '" + nomRecherche + "':");
         for (Patient patient : patientList) {
             if (patient.getNom().equalsIgnoreCase(nomRecherche)) {
+                System.err.println("Nom : "+nom+" Prénom : "+ prenom);
                 System.out.println(patient.getImmatricule());
                 found = true;
             }
@@ -84,13 +85,15 @@ public class Patient {
     }
 
         //Méthode : rechercher patient 
-        public static void recherchePatient (String immatricule,List<Patient> patientList) {
+        public static Patient recherchePatient (String immatricule,List<Patient> patientList) {
               for (Patient patient : patientList) {
                       if (patient.getImmatricule().equalsIgnoreCase(immatricule)) //equalsIgnoreCase permet de vérifier si l'immatricule qu'on cherche existe dans notre liste
                       {
                              patient.afficher();
+                             return patient;
                       }
                 }
+                return null;
         }
 
          //Méthode : supprimer patient

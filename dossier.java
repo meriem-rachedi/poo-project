@@ -6,8 +6,6 @@ public class Dossier {
 	
 	private Patient patient;
     private String groupeSanguin;    
-    // Listes pour les antécédents médicaux, allergies et médicaments
-    private List<String> medicamentsPrescrits;
 
     //Classe de consultation pour créer une liste de touts les consultation d'un patient
     public class Consultations{
@@ -37,7 +35,7 @@ public class Dossier {
         }
 
         //Méthode pour ajouter une consultation à une liste
-        public  void ajouterConsultations(ArrayList<Consultations> LC, Consultations consultation) {
+        public void ajouterConsultations(ArrayList<Consultations> LC, Consultations consultation) {
             LC.add(consultation);
         }
 
@@ -85,39 +83,50 @@ public class Dossier {
     //Constructeurs du dossier 
     Dossier(){}
 
-    public Dossier(Patient patient, String groupeSanguin, List<String> medicamentsPrescrits,
-            ArrayList<Dossier.Consultations> consultation) {
+    public Dossier(Patient patient, String groupeSanguin, ArrayList<Dossier.Consultations> consultation) {
         this.patient = patient;
         this.groupeSanguin = groupeSanguin;
-        this.medicamentsPrescrits = medicamentsPrescrits;
         this.consultation = consultation;
     }
-
     
-// Méthode pour afficher les détails du dossier
-public void afficher() {
-    System.out.println("Groupe sanguin : " + groupeSanguin);
-    System.out.println("Médicaments prescrits : ");
-    for (String medicament : medicamentsPrescrits) {
-        System.out.println("- " + medicament);
+    public Dossier(Patient patient) {
+        this.patient = patient;
     }
-    System.out.println("Consultations : ");
-    for (Consultations consultation : consultation) { 
-        consultation.afficher();
+
+    public void ajoutConsultADossier(ArrayList<Dossier> LD, Patient patient, Consultations consultation) {
+        // Rechercher le dossier du patient
+        for (Dossier dossier : LD) {
+            if (dossier.getPatient().equals(patient)) {
+                // Ajouter la consultation à la liste des consultations du dossier du patient
+                dossier.getConsultation().add(consultation);
+                System.out.println("Consultation ajoutée au dossier du patient immatriculé " + patient.getImmatricule());
+                return; // Sortir de la boucle une fois que la consultation a été ajoutée
+            }
+        }
+        // Si aucun dossier n'est trouvé pour le patient
+        System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
+    }    
+
+    // Méthode pour afficher les détails du dossier
+    public void afficher() {
+        System.out.println("Groupe sanguin : " + groupeSanguin);
+        System.out.println("Consultations : ");
+        for (Consultations consultation : consultation) { 
+            consultation.afficher();
+        }
     }
-}
         // Méthode pour ajouter un dossier à LD
         public  void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
             LD.add(dossier);
         }
     
         // Méthode pour supprimer un dossier de LD
-        public  void supprimerDossier(ArrayList<Dossier> LD, String immatriculePatient) {
-            LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(immatriculePatient));
+        public  void supprimerDossier(ArrayList<Dossier> LD) {
+            LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(patient.getImmatricule()));
         }
     
         // Méthode pour afficher le dossier d'un patient donné 
-        public  void rechercherDossier(ArrayList<Dossier> LD) {
+        public void rechercherDossier(ArrayList<Dossier> LD) {
             boolean found = false;
             for (Dossier dossier : LD) {
                 if (dossier.getPatient().getImmatricule().equals(patient.getImmatricule())) {
@@ -148,14 +157,6 @@ public void afficher() {
 
         public void setGroupeSanguin(String groupeSanguin) {
             this.groupeSanguin = groupeSanguin;
-        }
-
-        public List<String> getMedicamentsPrescrits() {
-            return medicamentsPrescrits;
-        }
-
-        public void setMedicamentsPrescrits(List<String> medicamentsPrescrits) {
-            this.medicamentsPrescrits = medicamentsPrescrits;
         }
 
         public ArrayList<Consultations> getConsultation() {

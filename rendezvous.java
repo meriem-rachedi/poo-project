@@ -23,6 +23,14 @@ public class Rendezvous {
         this.patient = patient;
     }
 
+    public Rendezvous(Medecin medecin) {
+        this.medecin = medecin;
+    }
+
+    public Rendezvous(Date dateRendezvous) {
+        this.dateRendezvous = dateRendezvous;
+    }
+
     // Méthodes
     //Méthodes pour afficher un rendez-vous
     public void afficher() {
@@ -63,7 +71,7 @@ public class Rendezvous {
         }
     }
 
-    //Méthode pour chercher/afficher les rendez-vous d'un patient ou d'un médecin
+    //Méthode pour chercher/afficher les rendez-vous d'un patient
     public void rechercherendezvous(ArrayList<Rendezvous> listeRendezvous) {
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
         for (Rendezvous rdv : listeRendezvous) {
@@ -78,8 +86,23 @@ public class Rendezvous {
         }
     }
 
+    //Méthode pour chercher/afficher les rendez-vous d'un médecin
+    public void rechercherendezvousM(ArrayList<Rendezvous> listeRendezvous) {
+        ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
+        for (Rendezvous rdv : listeRendezvous) {
+            if (rdv.getMedecin().equals(medecin)) {
+                rdvTrouves.add(rdv);
+            }
+        }
+        if (rdvTrouves.isEmpty()) {
+            System.out.println("Aucun rendez-vous trouvé pour le patient '" + patient.getNom() + "'.");
+        } else {
+            afficherListeRen(rdvTrouves);
+        }
+    }
+
     //Méthodes pour chercher/afficher les rendez-vous d'une date
-    public void rechercherendezvous(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous) {
+    public void rechercherendezvousDate(ArrayList<Rendezvous> listeRendezvous) {
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
         for (Rendezvous rdv : listeRendezvous) {
             if (rdv.getDateRendezvous().equals(dateRendezvous)) {
