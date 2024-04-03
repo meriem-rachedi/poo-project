@@ -15,6 +15,7 @@ public class app {
         String utilisateur = "";
         String mdp="";
         SessionCompte compte = null;
+        Medecin medecin = null;
 
         System.out.println("Bonjour,");
         System.out.println("Si vous êtes un patient, entrez P");
@@ -108,11 +109,116 @@ public class app {
                 System.out.println("Tapez M pour modifier vos information");
                 System.out.println("Tapez MR pour modifier un rendez-vous");
                 System.out.println("Tapez A pour annuler un rendez-vous");
-                System.out.println("Tapez RR pour chercher un rendez vous précis");
-                //To see the out put without the infinit loop i added this
-                sortie = true;
-            }
-        }
+                System.out.println("Pour vous déconnectez tapez S");
+                String check = scanner.nextLine();
+                if (check.equals("I")) {
+                    patient.afficher();
+                }
+                if (check.equals("D")) {
+                    Dossier dossier = new Dossier();
+                    dossier.rechercherDossier(LD);
+                }
+                if (check.equals("P")) {
+                    System.out.println("Donnez le jour du rendez-vous format dd/mm//yyyy ");
+                    String date = scanner.next();
+                    Date dateR = null;
+                    try {
+                        dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    System.out.println("Donnez l'heure du rendez-vous entre 8h et 16h");
+                    String heure = scanner.next();
+                    Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
+                    rendezvous.ajouterRen(LR, rendezvous);
+                }
+                if (check.equals("R")) {
+                    Rendezvous rendezvous = new Rendezvous(patient);
+                    rendezvous.rechercherendezvous(LR);
+                }
+                if (check.equals("M")) {
+                    System.out.println("Veuillez saisir vos nouveaux informations :");
+
+                    System.out.print("Nom : ");
+                    String nom = scanner.nextLine();
+    
+                    System.out.print("Prénom : ");
+                    String prenom = scanner.nextLine();
+    
+                    System.out.print("Email : ");
+                    String email = scanner.nextLine();
+    
+                    System.out.print("Genre : ");
+                    String genre = scanner.nextLine();
+    
+                    System.out.print("Maladies : ");
+                    String maladies = scanner.nextLine();
+    
+                    System.out.print("Adresse : ");
+                    String adresse = scanner.nextLine();
+    
+                    System.out.print("Numéro de téléphone : ");
+                    int numtel = scanner.nextInt();
+    
+                    System.out.print("Date de naissance (au format dd/MM/yyyy) : ");
+                    String dateNaissanceStr = scanner.next();
+                    Date dateNaissance = null;
+                    try {
+                        dateNaissance = new SimpleDateFormat("dd/MM/yyyy").parse(dateNaissanceStr);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+
+                    Patient patient2 = new Patient(nom, prenom, email, genre, maladies, numtel, dateNaissance, adresse);
+                    patient.modifinfo(LP, patient2);
+                    compte.modifInfoC(LC, patient, patient2);
+                }
+                if (check.equals("MR")) {
+                    System.out.println("Donnez le jour du rendez-vous que vous souhaitez modfier format dd/mm//yyyy ");
+                    String date = scanner.next();
+                    Date dateR = null;
+                    try {
+                        dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    System.out.println("Donnez l'heure du rendez-vous");
+                    String heure = scanner.next();
+                    System.out.println("Donnez la nouvelle date format dd/mm//yyyy ");
+                    String date1 = scanner.next();
+                    Date dateR1 = null;
+                    try {
+                        dateR1 = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    System.out.println("Donnez l'heure du rendez-vous");
+                    String heure1 = scanner.next();
+                    Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR1, heure1);
+                    rendezvous.modifierRen(LR, dateR, heure);
+                }
+                if (check.equals("A")) {
+                    System.out.println("Donnez le jour du rendez-vous a annuler format dd/mm//yyyy ");
+                    String date = scanner.next();
+                    Date dateR = null;
+                    try {
+                        dateR = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        System.out.println("Format de date invalide. Utilisez le format dd/MM/yyyy.");
+                        return;
+                    }
+                    System.out.println("Donnez l'heure du rendez-vous");
+                    String heure = scanner.next();
+                    Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
+                    rendezvous.supprimerRen(LR);
+                }
+                if(check.equals("S")) sortie=true;
+            }  
+         }
         scanner.close();
     }
 }

@@ -30,6 +30,17 @@ public class SessionCompte {
         listeCompte.removeIf(compte -> compte.getUtilisateur().equals(utilisateur));
     }
 
+    public void modifInfoC(List<SessionCompte> listeCompte, Patient patientToReplace, Patient newPatient) {
+        for (SessionCompte compte : listeCompte) {
+            if (compte.getPatient() == patientToReplace) {
+                compte.setPatient(newPatient);
+                return;
+            }
+        }
+        System.out.println("Le patient à remplacer n'a pas été trouvé dans la liste de comptes.");
+    }
+    
+
     public Patient rechercherPatientCompte(List<SessionCompte> listeCompte) {
         for(SessionCompte compte : listeCompte){
             if(compte.getUtilisateur().equals(utilisateur)) {

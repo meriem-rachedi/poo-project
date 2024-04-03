@@ -19,6 +19,10 @@ public class Rendezvous {
         this.heure = heure;
     }
 
+    public Rendezvous(Patient patient) {
+        this.patient = patient;
+    }
+
     // Méthodes
     //Méthodes pour afficher un rendez-vous
     public void afficher() {
@@ -35,18 +39,18 @@ public class Rendezvous {
     }
 
     //Méthodes pour supprimez un rendez-vous d'une liste
-    public void supprimerRen(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous, String heure) {
+    public void supprimerRen(ArrayList<Rendezvous> listeRendezvous) {
         listeRendezvous.removeIf(rdv -> rdv.getDateRendezvous().equals(dateRendezvous) && rdv.getHeure().equals(heure)); //removeIf(ici) est une méthode qui supprime les éléments d'une liste qui suivent la condition "ici"
     }
 
     //Méthode pour modifier un rendez-vous d'une liste
-    public void modifierRen(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous, String heure, Rendezvous nouveauRendezvous) {
+    public void modifierRen(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous, String heure) {
         for (Rendezvous rdv : listeRendezvous) {
             if (rdv.getDateRendezvous().equals(dateRendezvous) && rdv.getHeure().equals(heure)) {
-                rdv.setPatient(nouveauRendezvous.getPatient());
-                rdv.setMedecin(nouveauRendezvous.getMedecin());
-                rdv.setDateRendezvous(nouveauRendezvous.getDateRendezvous());
-                rdv.setHeure(nouveauRendezvous.getHeure());
+                rdv.setPatient(patient);
+                rdv.setMedecin(medecin);
+                rdv.setDateRendezvous(dateRendezvous);
+                rdv.setHeure(heure);
                 break;
             }
         }
@@ -60,18 +64,15 @@ public class Rendezvous {
     }
 
     //Méthode pour chercher/afficher les rendez-vous d'un patient ou d'un médecin
-    public void rechercherendezvous(ArrayList<Rendezvous> listeRendezvous, String nom, String type) {
+    public void rechercherendezvous(ArrayList<Rendezvous> listeRendezvous) {
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
         for (Rendezvous rdv : listeRendezvous) {
-            if (type.equals("P") && rdv.getPatient().getNom().equalsIgnoreCase(nom)) {
-                rdvTrouves.add(rdv);
-            }
-            if (type.equals("M") && rdv.getMedecin().getNom().equalsIgnoreCase(nom)) {
+            if (rdv.getPatient().equals(patient)) {
                 rdvTrouves.add(rdv);
             }
         }
         if (rdvTrouves.isEmpty()) {
-            System.out.println("Aucun rendez-vous trouvé pour le nom '" + nom + "'.");
+            System.out.println("Aucun rendez-vous trouvé pour le patient '" + patient.getNom() + "'.");
         } else {
             afficherListeRen(rdvTrouves);
         }
