@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Rendezvous implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private Patient patient;
     private Medecin medecin;
@@ -48,19 +49,27 @@ public class Rendezvous implements Serializable{
     }
 
     // Méthodes pour supprimer un rendez-vous d'une liste
-    public void supprimerRen(ArrayList<Rendezvous> listeRendezvous) {
-        if (listeRendezvous.isEmpty()) {
-            System.out.println("La liste des rendez-vous est vide.");
-            return;
-        }
-        listeRendezvous.removeIf(rdv -> rdv.getDateRendezvous().equals(dateRendezvous) && rdv.getHeure().equals(heure));
+public boolean supprimerRen(ArrayList<Rendezvous> listeRendezvous) {
+    if (listeRendezvous.isEmpty()) {
+        System.out.println("La liste des rendez-vous est vide.");
+        return false;
     }
+    
+    try {
+        listeRendezvous.removeIf(rdv -> rdv.getDateRendezvous().equals(dateRendezvous) && rdv.getHeure().equals(heure));
+    } catch (Exception e) {
+        System.out.println("erreur");
+        return false;
+    }
+    
+    return true;
+}
 
     // Méthode pour modifier un rendez-vous d'une liste
-    public void modifierRen(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous, String heure) { //les argument représente les information du rendezvous qu'on veut changé
+    public boolean modifierRen(ArrayList<Rendezvous> listeRendezvous, Date dateRendezvous, String heure) { //les argument représente les information du rendezvous qu'on veut changé
         if (listeRendezvous.isEmpty()) {
             System.out.println("La liste des rendez-vous est vide.");
-            return;
+            return false;
         }
         for (Rendezvous rdv : listeRendezvous) {
             if (rdv.getDateRendezvous().equals(dateRendezvous) && rdv.getHeure().equals(heure)) { //recherche de notre rendez vous
@@ -68,27 +77,30 @@ public class Rendezvous implements Serializable{
                 rdv.setMedecin(medecin);
                 rdv.setDateRendezvous(dateRendezvous);
                 rdv.setHeure(heure);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     // Méthode pour afficher une liste de rendez-vous
-    public void afficherListeRen(ArrayList<Rendezvous> listeRendezvous) {
+    public boolean afficherListeRen(ArrayList<Rendezvous> listeRendezvous) {
         if (listeRendezvous.isEmpty()) {
             System.out.println("La liste des rendez-vous est vide.");
-            return;
+            return false;
         }
         for (Rendezvous rdv : listeRendezvous) {
             rdv.afficher();
+            return true;
         }
+        return false;
     }
 
     // Méthode pour chercher/afficher les rendez-vous d'un patient
-    public void rechercherendezvous(ArrayList<Rendezvous> listeRendezvous) {
+    public boolean rechercherendezvous(ArrayList<Rendezvous> listeRendezvous) {
         if (listeRendezvous.isEmpty()) {
             System.out.println("La liste des rendez-vous est vide.");
-            return;
+            return false;
         }
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>(); //Création d'une liste qui contienderas tous les rendezvous du patient
         for (Rendezvous rdv : listeRendezvous) {
@@ -98,16 +110,18 @@ public class Rendezvous implements Serializable{
         }
         if (rdvTrouves.isEmpty()) {
             System.out.println("Aucun rendez-vous trouvé pour le patient '" + patient.getNom() + "'.");
+            return false;
         } else {
             afficherListeRen(rdvTrouves); //afficher la liste
+            return true;
         }
     }
 
     // Méthode pour chercher/afficher les rendez-vous d'un médecin
-    public void rechercherendezvousM(ArrayList<Rendezvous> listeRendezvous) {
+    public boolean  rechercherendezvousM(ArrayList<Rendezvous> listeRendezvous) {
         if (listeRendezvous.isEmpty()) {
             System.out.println("La liste des rendez-vous est vide.");
-            return;
+            return false;
         }
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
         for (Rendezvous rdv : listeRendezvous) {
@@ -117,16 +131,18 @@ public class Rendezvous implements Serializable{
         }
         if (rdvTrouves.isEmpty()) {
             System.out.println("Aucun rendez-vous trouvé pour le médecin '" + medecin.getNom() + "'.");
+            return false;
         } else {
             afficherListeRen(rdvTrouves);
+            return true;
         }
     }
 
     // Méthodes pour chercher/afficher les rendez-vous d'une date
-    public void rechercherendezvousDate(ArrayList<Rendezvous> listeRendezvous) {
+    public boolean rechercherendezvousDate(ArrayList<Rendezvous> listeRendezvous) {
         if (listeRendezvous.isEmpty()) {
             System.out.println("La liste des rendez-vous est vide.");
-            return;
+            return false;
         }
         ArrayList<Rendezvous> rdvTrouves = new ArrayList<>();
         for (Rendezvous rdv : listeRendezvous) {
@@ -136,17 +152,21 @@ public class Rendezvous implements Serializable{
         }
         if (rdvTrouves.isEmpty()) {
             System.out.println("Aucun rendez-vous trouvé pour la date '" + dateRendezvous + "'.");
+            return false;
         } else {
             afficherListeRen(rdvTrouves);
+            return true;
         }
     }
 
     // Méthode pour modifier le patient d'un rendez-vous
-    public static void modifPatient(ArrayList<Rendezvous> listeRendezvous, Patient patient1, Patient patient2) {
-        if (listeRendezvous.isEmpty()) {
-            System.out.println("La liste des rendez-vous est vide.");
-            return;
-        }
+public static boolean modifPatient(ArrayList<Rendezvous> listeRendezvous, Patient patient1, Patient patient2) {
+    if (listeRendezvous.isEmpty()) {
+        System.out.println("La liste des rendez-vous est vide.");
+        return false;
+    }
+    
+    try {
         // Parcourir la liste des rendez-vous
         for (Rendezvous rdv : listeRendezvous) {
             // Vérifier si le rendez-vous concerne le patient1
@@ -155,7 +175,14 @@ public class Rendezvous implements Serializable{
                 rdv.setPatient(patient2);
             }
         }
+    } catch (Exception e) {
+        System.out.println("erreur");
+        return false;
     }
+    
+    return true;
+}
+
 
     // Getters et Setters
     public Patient getPatient() {

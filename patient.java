@@ -1,9 +1,10 @@
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 public class Patient implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     // Déclaration des attributs
     private String nom;
@@ -67,24 +68,27 @@ public class Patient implements Serializable {
     }
 
     // Méthode pour obtenir les immatricules des patients avec un nom donné
-    public void obtenirImmatriculesParNom(String nomRecherche, List<Patient> patientList) {
+    public static boolean obtenirImmatriculesParNom(String nomRecherche, List<Patient> patientList) {
+        boolean found = false; 
         // Vérifier si la liste des patients est vide
         if (patientList.isEmpty()) {
             System.out.println("La liste des patients est vide.");
-            return;
+            return found;
         }
-        boolean found = false; 
         System.out.println("Immatricules des patients avec le nom '" + nomRecherche + "':");
         for (Patient patient : patientList) { //Boucle pour afficher tous les patients avec le méme noms et leur matricule
             if (patient.getNom().equalsIgnoreCase(nomRecherche)) { //Chercher le patient dans la liste
-                System.out.println("Nom : "+nom+" Prénom : "+ prenom); //Affichage
+                System.out.println("Nom : " + patient.getNom() + " Prénom : " + patient.getPrenom()); //Accessing patient's name and prenom
                 System.out.println(patient.getImmatricule());
                 found = true;
+                return found;
             }
         }
         if (!found) {
             System.out.println("Aucun patient avec le nom '" + nomRecherche + "' trouvé.");
+            return found;
         }
+        return found;
     }
 
     // Méthode : rechercher patient (retourner le patient avec un matricule donné)
@@ -104,11 +108,11 @@ public class Patient implements Serializable {
     }
 
     // Méthode : supprimer patient
-    public static void suppPatient (String immatricule, List<Patient> patientList) {
+    public static boolean  suppPatient (String immatricule, List<Patient> patientList) {
         // Vérifier si la liste des patients est vide
         if (patientList.isEmpty()) {
             System.out.println("La liste des patients est vide.");
-            return;
+            return false;
         }
         Iterator <Patient> iterator = patientList.iterator(); //Itérateur de la liste 'patientList'
         while (iterator.hasNext()) { // hasnext() est une méthode de Iterator qui permet de parcourir une liste 
@@ -116,18 +120,19 @@ public class Patient implements Serializable {
             if (patient.getImmatricule().equalsIgnoreCase(immatricule)) { //test si l'immatricule qu'on cherche existe dans la liste pour pouvoir le supprimer
                 iterator.remove(); //remove() est une méthode de Iterator qui permet de supprimer des élement d'une liste
                 System.out.println("Patient " + immatricule + " supprimé avec succès.");
-                return; // Sortie de la méthode après la suppression du patient
+                return true; // Sortie de la méthode après la suppression du patient
             }
         }
         System.out.println("Patient " + immatricule + " not found in the list."); //Patient not found
+        return  false;
     }
     
     // Méthode : modifier les informations du patient
-    public  void modifinfo (List<Patient> patientList, Patient patient2) {
+    public  boolean modifinfo (List<Patient> patientList, Patient patient2) {
         // Vérifier si la liste des patients est vide
         if (patientList.isEmpty()) {
             System.out.println("La liste des patients est vide.");
-            return;
+            return false;
         }
         for (Patient patient1 : patientList) {
             if (patient1.getImmatricule().equals(immatricule)) { //test si l'immatricule qu'on cherche existe dans la liste pour pouvoir modifier ses informations
@@ -141,10 +146,11 @@ public class Patient implements Serializable {
                 patient1.setNumtel(patient2.getNumtel());
                 patient1.setMaladies(patient2.getMaladies());
                 System.out.println("Patient information modified successfully.");
-                return; // Exit method after modifying the patient's information
+                return true; // Exit method after modifying the patient's information
             }
         }
         System.out.println("Patient " + immatricule + " not found in the list."); //Patient not found
+        return false;
     }
 
     // Getters and Setters 

@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SessionCompte implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String utilisateur;
     private String mdp;
     private Patient patient;
@@ -20,38 +21,57 @@ public class SessionCompte implements Serializable{
     }
     
     //Méthodes
-    //Ajouter un compte pour le sauvegarder
-    public void ajoutCompte(List<SessionCompte> listeCompte, SessionCompte compte){
-        if (listeCompte.isEmpty()) {
-            System.out.println("Liste vide : aucun compte n'a été ajouté.");
-            return;
-        }
-        listeCompte.add(compte);
+    // Ajouter un compte pour le sauvegarder
+public boolean ajoutCompte(List<SessionCompte> listeCompte, SessionCompte compte) {
+    if (listeCompte.isEmpty()) {
+        System.out.println("Liste vide : aucun compte n'a été ajouté.");
+        return false;
     }
 
-    //Supprimer un compte
-    public void supprimerCompte(List<SessionCompte> listeCompte, String utilisateur) {
-        //Supprime le compte de l'utilisateur de la liste
-        if (listeCompte.isEmpty()) {
-            System.out.println("Liste vide : aucun compte à supprimer.");
-            return;
-        }
-        listeCompte.removeIf(compte -> compte.getUtilisateur().equals(utilisateur));
+    try {
+        listeCompte.add(compte);
+    } catch (Exception e) {
+        System.out.println("erreur");
+        return false;
     }
+    
+    return true;
+}
+
+
+    // Supprimer un compte
+public boolean supprimerCompte(List<SessionCompte> listeCompte, String utilisateur) {
+    // Supprime le compte de l'utilisateur de la liste
+    if (listeCompte.isEmpty()) {
+        System.out.println("Liste vide : aucun compte à supprimer.");
+        return false;
+    }
+
+    try {
+        listeCompte.removeIf(compte -> compte.getUtilisateur().equals(utilisateur));
+    } catch (Exception e) {
+        System.out.println("erreur");
+        return false;
+    }
+
+    return true;
+}
+
 
     //Modifier les informations du patient d'un compte
-    public void modifInfoC(List<SessionCompte> listeCompte, Patient patientToReplace, Patient newPatient) {
+    public boolean modifInfoC(List<SessionCompte> listeCompte, Patient patientToReplace, Patient newPatient) {
         if (listeCompte.isEmpty()) {
             System.out.println("Liste vide : aucun compte à modifier.");
-            return;
+            return false;
         }
         for (SessionCompte compte : listeCompte) {
             if (compte.getPatient() == patientToReplace) {
                 compte.setPatient(newPatient);
-                return;
+                return true;
             }
         }
         System.out.println("Le patient à remplacer n'a pas été trouvé dans la liste de comptes.");
+        return false;
     }
     
 
