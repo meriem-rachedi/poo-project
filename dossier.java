@@ -1,9 +1,10 @@
-import java.util.List;        // est une interface qui définit les comportements attendus d'une liste.
-import java.util.Date;
-import java.io.Serializable;
+import java.io.Serializable;        // est une interface qui définit les comportements attendus d'une liste.
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Dossier {
+    private static final long serialVersionUID = 1L;
 	
 	private Patient patient;
     private String groupeSanguin;    
@@ -100,48 +101,66 @@ public class Dossier {
     }
 
     //Ajouer une nouvelle consulatation au dossier d'un patient dans la liste des consultations
-    public void ajoutConsultADossier(ArrayList<Dossier> LD, Patient patient, Consultations consultation) {
+    public boolean ajoutConsultADossier(ArrayList<Dossier> LD, Patient patient, Consultations consultation) {
         for (Dossier dossier : LD) {
             if (dossier.getPatient().equals(patient)) {
                 dossier.getConsultation().add(consultation);
                 System.out.println("Consultation ajoutée au dossier du patient immatriculé " + patient.getImmatricule());
-                return;
+                return true;
             }
         }
         System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
+        return false;
     }  
 
     // Méthode pour afficher les détails du dossier
-    public void afficher() {
+    public boolean afficher() {
         System.out.println("Groupe sanguin : " + groupeSanguin);
         System.out.println("Consultations : ");
         if (consultation.isEmpty()) {
             System.out.println("Aucune consultation disponible.");
-            return;
+            return false;
         }
         for (Consultations consultation : consultation) {
             consultation.afficher();
+            return true;
         }
+        return false;
     }
         // Méthode pour ajouter un dossier à LD
-        public  void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
-            LD.add(dossier);
-        }
+public void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
+    try {
+        LD.add(dossier);
+    } catch (Exception e) {
+        System.out.println("erreur");
+    }
+}
+
     
         // Méthode pour supprimer un dossier de LD
-        public void supprimerDossier(ArrayList<Dossier> LD) {
-            if (LD.isEmpty()) {
-                System.out.println("La liste des dossiers est vide. Aucun dossier à supprimer.");
-                return;
-            }
-            LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(patient.getImmatricule()));
-        }
+public boolean supprimerDossier(ArrayList<Dossier> LD, Patient patient) {
+    if (LD.isEmpty()) {
+        System.out.println("La liste des dossiers est vide. Aucun dossier à supprimer.");
+        return false;
+    }
+
+    try {
+        LD.removeIf(dossier -> dossier.getPatient().getImmatricule().equals(patient.getImmatricule()));
+    } catch (Exception e) {
+        System.out.println("erreur");
+        return false;
+    }
+    
+    return true;
+}
+
     
         // Méthode pour afficher le dossier d'un patient donné 
-        public void rechercherDossier(ArrayList<Dossier> LD) {
+        public boolean rechercherDossier(ArrayList<Dossier> LD) {
             if (LD.isEmpty()) {
                 System.out.println("La liste des dossiers est vide. Aucun dossier à rechercher.");
-                return;
+                return false;
+                
             }
             boolean found = false;
             for (Dossier dossier : LD) {
@@ -149,28 +168,31 @@ public class Dossier {
                     System.out.println("Dossier du patient immatriculé " + patient.getImmatricule());
                     dossier.afficher();
                     found = true;
-                    break;
+                    return true;
                 }
             }
             if (!found) {
                 System.out.println("Aucun dossier trouvé pour le patient immatriculé " + patient.getImmatricule());
+                return false;
             }
+            return found;
         }
 
         //Modifier les information du patient dans le dossier 
-        public static void modifPatient(ArrayList<Dossier> LD, Patient patient1, Patient patient2) {
+        public static boolean modifPatient(ArrayList<Dossier> LD, Patient patient1, Patient patient2) {
             if (LD.isEmpty()) {
                 System.out.println("La liste des dossiers est vide. Aucune modification effectuée.");
-                return;
+                return false;
             }
             for (Dossier dossier : LD) {
                 if (dossier.getPatient().equals(patient1)) {
                     dossier.setPatient(patient2);
                     System.out.println("Informations du patient modifiées dans le dossier.");
-                    return;
+                    return true;
                 }
             }
             System.out.println("Aucun dossier trouvé pour le patient " + patient1.getImmatricule());
+            return false;
         }
 
         //Getteur et Setteur
