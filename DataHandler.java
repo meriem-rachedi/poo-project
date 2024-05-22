@@ -6,10 +6,10 @@ public class DataHandler implements Serializable {
     // Méthode pour sauvegarder les données
     public static void saveData(ArrayList<Dossier> LD, ArrayList<Rendezvous> LR, List<Patient> LP, List<SessionCompte> LC, String fileName) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(LD);
-            oos.writeObject(LR);
-            oos.writeObject(LP);
-            oos.writeObject(LC);
+            oos.writeObject(LD);//liste des dossiers
+            oos.writeObject(LR);//liste des rendez-vous
+            oos.writeObject(LP);//liste des patients
+            oos.writeObject(LC);//liste des consultations
             System.out.println("Données sauvegardées avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des données : " + e.getMessage());
@@ -17,7 +17,7 @@ public class DataHandler implements Serializable {
     }
 
     // Méthode pour charger les données
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")//erreur handling 
     public static void loadData(ArrayList<Dossier> LD, ArrayList<Rendezvous> LR, List<Patient> LP, List<SessionCompte> LC, String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             LD.addAll((List<Dossier>) ois.readObject());

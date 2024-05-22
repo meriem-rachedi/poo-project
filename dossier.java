@@ -4,8 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Dossier {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; //Enregistrer la liste des dossiers dans un fichier
 	
+    // Déclaration des attributs :
 	private Patient patient;
     private String groupeSanguin;    
 
@@ -15,7 +16,7 @@ public class Dossier {
         private Date date;
         private List<String> medicamentsPrescrits;
 
-        //Constructeurs
+        //Constructeurs :
         Consultations(){}
         public Consultations(String diagnostic, Date date, List<String> medicamentsPrescrits) {
             this.diagnostic = diagnostic;
@@ -24,7 +25,8 @@ public class Dossier {
         }
 
         //Méthodes :
-        public void ajouterMedicamentPrescrit(String medicament) {        //Cette méthode ajoute un nouveau médicament prescrit à la liste
+        //Cette méthode ajoute un nouveau médicament prescrit à la liste
+        public void ajouterMedicamentPrescrit(String medicament) {
             medicamentsPrescrits.add(medicament);
         }
 
@@ -87,7 +89,7 @@ public class Dossier {
     }
     private ArrayList<Consultations> consultation;
     
-    //Constructeurs du dossier 
+    //Constructeurs de la classe dossier 
     Dossier(){}
 
     public Dossier(Patient patient, String groupeSanguin, ArrayList<Dossier.Consultations> consultation) {
@@ -99,7 +101,7 @@ public class Dossier {
     public Dossier(Patient patient) {
         this.patient = patient;
     }
-
+    //Méthodes:
     //Ajouer une nouvelle consulatation au dossier d'un patient dans la liste des consultations
     public boolean ajoutConsultADossier(ArrayList<Dossier> LD, Patient patient, Consultations consultation) {
         for (Dossier dossier : LD) {
@@ -127,7 +129,7 @@ public class Dossier {
         }
         return false;
     }
-        // Méthode pour ajouter un dossier à LD
+// Méthode pour ajouter un dossier à LD
 public void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
     try {
         LD.add(dossier);
@@ -137,7 +139,7 @@ public void ajouterDossier(ArrayList<Dossier> LD, Dossier dossier) {
 }
 
     
-        // Méthode pour supprimer un dossier de LD
+// Méthode pour supprimer un dossier de LD
 public boolean supprimerDossier(ArrayList<Dossier> LD, Patient patient) {
     if (LD.isEmpty()) {
         System.out.println("La liste des dossiers est vide. Aucun dossier à supprimer.");

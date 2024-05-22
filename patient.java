@@ -6,7 +6,7 @@ import java.util.List;
 public class Patient implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    // Déclaration des attributs
+    // Déclaration des attributs :
     private String nom;
     private String prenom;
     private String email;
@@ -20,7 +20,7 @@ public class Patient implements Serializable {
     // Compteur statique pour générer un identifiant unique
     private static int compteurMatricule = 0;
 
-    // Constructeurs
+    // Constructeurs :
     public Patient() {
         // Générer automatiquement un matricule unique
         this.immatricule = genererMatricule();
@@ -153,7 +153,7 @@ public class Patient implements Serializable {
         return false;
     }
 
-    // Getters and Setters 
+    // Getters and Setters :
     //Nom
     public String getNom() {
         return nom;
