@@ -2,11 +2,13 @@ import java.io.Serializable;
 
 public class Medecin implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    // Déclaration des attributs :
     private String nom;
     private String prenom;
     private String status;
 
-    //Constructeurs
+    //Constructeurs :
     public Medecin() {
     }
 
@@ -20,7 +22,7 @@ public class Medecin implements Serializable {
         this.status = status;
     }
 
-    //Getteurs et Setteurs
+    //Getteurs et Setteurs :
     public String getNom() {
         return nom;
     }
