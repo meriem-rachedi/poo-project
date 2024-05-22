@@ -20,8 +20,8 @@ Ce projet est une application de gestion de cabinet médical développée en Jav
 
 1. **Cloner le dépôt :**
    ```bash
-   git clone https://github.com/votre-utilisateur/gestion-cabinet.git
-   cd gestion-cabinet
+   git clone https://github.com/meriem-rachedi/poo-project.git
+   cd poo-project
    ```
 
 ## Utilisation
