@@ -6,19 +6,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+//Classe application contient le main
 public class app {
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
+            // Déclaration des objets :
             List<SessionCompte> LC = new ArrayList<>();
             List<Patient> LP = new ArrayList<>();
             ArrayList<Dossier> LD = new ArrayList<>();
             ArrayList<Rendezvous> LR = new ArrayList<>();
 
-            LD.clear();
-            LR.clear();
-            LP.clear();
-            LC.clear();
+            LD.clear(); //liste des dossiers
+            LR.clear(); //liste des rendez-vous
+            LP.clear(); //liste des patients
+            LC.clear(); //liste des consultations
 
             // Charger les données sauvegardées (si disponibles)
             DataHandler.loadData(LD, LR, LP, LC, "data.ser");
@@ -27,7 +29,8 @@ public class app {
             String mdp = "";
             SessionCompte compte = new SessionCompte();
             Medecin medecin = null;
-
+            
+            //Demander à l'utilisateurs de donner don rôle
             System.out.println("Bonjour,");
             System.out.println("Si vous êtes un patient, entrez P");
             System.out.println("Si vous êtes un médecin, entrez M");
@@ -42,7 +45,7 @@ public class app {
                 System.out.println("Pour vous connecter, tapez L");
 
                 String action = scanner.next();
-
+                //Créer un compte
                 if (action.equals("S")) {
                     //Ajout d'un nom d'utilistaeur et du mot de passe correcte
                     boolean creerCompte = false;
@@ -99,6 +102,7 @@ public class app {
                     patient.ajoutPatient(LP);   // Sauvgardez le patient
                     System.out.println("Compte créer avec succées");
                 } else {
+                    //Se connecter (si on a déjà un compte existant)
                     if (action.equals("L")) {
                         Boolean check = false;
                         while (!check) {
@@ -114,7 +118,7 @@ public class app {
                     }
                 }
                 System.out.println("Bienvenu" + patient.getNom() + " " + patient.getPrenom());
-                //Les services :
+                //Demander au patient de choisir un service qu'il souhaite avoir
                 Boolean sortie = false;
                 while (!sortie) {
                     System.out.println("Quelle service voulez vous avoir ?");
@@ -127,13 +131,16 @@ public class app {
                     System.out.println("Tapez A pour annuler un rendez-vous");
                     System.out.println("Pour vous déconnectez tapez S");
                     String check = scanner.nextLine();
+                    //Afficher les informations
                     if (check.equals("I")) {
                         patient.afficher();
                     }
+                    //Afficher le dossier médicale
                     if (check.equals("D")) {
                         Dossier dossier = new Dossier(patient);
                         dossier.rechercherDossier(LD);
                     }
+                    //Prendre un nouveau rendez-vous
                     if (check.equals("P")) {
                         //Saisis des informations du rendez-vous
                         System.out.println("Donnez le jour du rendez-vous format dd/mm//yyyy ");
@@ -154,10 +161,12 @@ public class app {
                         Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
                         Rendezvous.ajouterRen(LR, rendezvous);
                     }
+                    //Voir tous vos rendez-vous
                     if (check.equals("R")) {
                         Rendezvous rendezvous = new Rendezvous(patient);
                         rendezvous.rechercherendezvous(LR);
                     }
+                    //Modifier vos information
                     if (check.equals("M")) {
                         //Saisies des nouveau informations
                         System.out.println("Veuillez saisir vos nouveaux informations :");
@@ -199,6 +208,7 @@ public class app {
                         Dossier.modifPatient(LD, patient, patient2); //Modifiez les information dans le dossier
                         Rendezvous.modifPatient(LR, patient, patient2); //Modfier les informations dans les rendezvous
                     }
+                    //Modifier un rendez-vous
                     if (check.equals("MR")) {
                         //Entrez les nouvelle information du rendez vous
                         System.out.println("Donnez le jour du rendez-vous que vous souhaitez modfier format dd/mm//yyyy ");
@@ -227,6 +237,7 @@ public class app {
                         Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR1, heure1);
                         rendezvous.modifierRen(LR, dateR, heure); //Trouvez le rendezvous et le changer
                     }
+                    //Annuler un rendez-vous
                     if (check.equals("A")) {
                         //Saisir les informations du rendez vous
                         System.out.println("Donnez le jour du rendez-vous a annuler format dd/mm//yyyy ");
@@ -244,6 +255,7 @@ public class app {
                         Rendezvous rendezvous = new Rendezvous(patient, medecin, dateR, heure);
                         rendezvous.supprimerRen(LR);
                     }
+                    //Se déconnecter 
                     if (check.equals("S")) {
                         sortie = true;
                     }
@@ -263,10 +275,10 @@ public class app {
                 medecin = new Medecin(nom, prenom, status);
                 Boolean sortie = false; //Variable pour sortie de la boucle
                 while (sortie == false) {
-                    //Serive à proposer
+                    //Serive à proposer au médecin
                     System.out.println("Quelle service voulez vous faire aujourd'hui ?");
                     System.out.println("Tapez R pour remplire le dossier d'un patient");
-                    System.out.println("Tapez D pour chercher afficher le dossier d'un patient");
+                    System.out.println("Tapez D pour chercher et afficher le dossier d'un patient");
                     System.out.println("Tapez A pour ajouter une consultation au dossier d'un patient");
                     System.out.println("Tapez S pour supprimez le dossier d'un patient");
                     System.out.println("Tapez P pour chercher un patient");
@@ -274,7 +286,8 @@ public class app {
                     System.out.println("Tapez RR pour rechercher les rendez-vous d'une certaine date");
                     System.out.println("Tapez S si vous souhaitez vous déconnecter");
                     choix = scanner.next();
-
+                    
+                    //Remplire le dossier d'un patient
                     if (choix.equals("R")) {
                         Boolean verif = false;
                         String a = "R";
@@ -330,6 +343,7 @@ public class app {
                             dossier.ajouterDossier(LD, dossier);
                         }
                     }
+                    //Chercher et afficher le dossier d'un patient
                     if (choix.equals("D")) {
                         Boolean verif = false;
                         String a = "R";
@@ -354,6 +368,7 @@ public class app {
                             dossier.rechercherDossier(LD);
                         }
                     }
+                    //Ajouter une consultation au dossier d'un patient
                     if (choix.equals("A")) {
                         Boolean verif = false;
                         String a = "R";
@@ -404,6 +419,7 @@ public class app {
                             dossier.ajoutConsultADossier(LD, patient, consultation);
                         }
                     }
+                    //Supprimez le dossier d'un patient
                     if (choix.equals("S")) {
                         Boolean verif = false;
                         String a = "R";
@@ -428,6 +444,7 @@ public class app {
                             dossier.supprimerDossier(LD, patient);
                         }
                     }
+                    //Chercher un patient
                     if (choix.equals("P")) {
                         Boolean verif = false;
                         String a = "R";
@@ -450,10 +467,12 @@ public class app {
                             Patient.recherchePatient(mat, LP);
                         }
                     }
+                    //Voir vos rendez-vous
                     if (choix.equals("V")) {
                         Rendezvous rendezvous = new Rendezvous(medecin);
                         rendezvous.rechercherendezvousM(LR);
                     }
+                    //Rechercher les rendez-vous d'une certaine date
                     if (choix.equals("RR")) {
                         System.out.println("Donnez la date au format dd/mm/yyyy");
                         String date = scanner.next();
@@ -467,15 +486,17 @@ public class app {
                         Rendezvous rendezvous = new Rendezvous(dateC);
                         rendezvous.rechercherendezvousDate(LR);
                     }
+                    //Se déconnecter
                     if (choix.equals("S")) {
                         sortie = true;
                     }
                 }
             }
-
+            //Interface secrétaire
             if (choix.equals("S")) {
                 Boolean sortie = false; //Variable pour sortie de la boucle
                 while (sortie == false) {
+                    //Demander au sectrétaire de choisir les services qu'il veut 
                     System.out.println("Bonjour");
                     System.out.println("quelle service veut faire aujourd'hui ? ");
                     System.out.println("Tapez R pour ajouter un rendez-vous");
@@ -485,7 +506,8 @@ public class app {
                     System.out.println("Tapez D si vous souhaitez vous déconnecter");
 
                     choix = scanner.next();
-
+                    
+                    //Ajouter un rendez-vous
                     if (choix.equals("R")) {
                         Boolean verif = false;
                         String a = "R";
@@ -525,6 +547,7 @@ public class app {
                             Rendezvous.ajouterRen(LR, rendezvous);
                         }
                     }
+                    //Supprimez un patient
                     if (choix.equals("S")) {
                         Boolean verif = false;
                         String a = "R";
@@ -547,6 +570,7 @@ public class app {
                             Patient.suppPatient(mat, LP);
                         }
                     }
+                    //Annuler une rendez-vous
                     if (choix.equals("A")) {
                         Boolean verif = false;
                         String a = "R";
@@ -583,6 +607,7 @@ public class app {
                             rendezvous.supprimerRen(LR);
                         }
                     }
+                    //Modifier un rendez-vous
                     if (choix.equals("MR")) {
                         Boolean verif = false;
                         String a = "R";
@@ -630,6 +655,7 @@ public class app {
                             rendezvous.modifierRen(LR, dateR, heure); //Trouvez le rendezvous et le changer
                         }
                     }
+                    //Se déconnecter
                     if (choix.equals("D")) {
                         sortie = true;
                     }

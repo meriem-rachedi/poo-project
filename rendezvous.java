@@ -3,14 +3,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Rendezvous implements Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; //Enregistrer la liste des rensez-vous dans un fichier
 
+    // Déclaration des attributs :
     private Patient patient;
     private Medecin medecin;
     private Date dateRendezvous;
     private String heure;
 
-    // Constructeurs
+    // Constructeurs :
     public Rendezvous() {
     }
 
@@ -33,7 +34,7 @@ public class Rendezvous implements Serializable{
         this.dateRendezvous = dateRendezvous;
     }
 
-    // Méthodes
+    // Méthodes :
     // Méthodes pour afficher un rendez-vous
     public void afficher() {
         System.out.println("Patient: " + patient.getNom() + " " + patient.getPrenom());
@@ -184,7 +185,7 @@ public static boolean modifPatient(ArrayList<Rendezvous> listeRendezvous, Patien
 }
 
 
-    // Getters et Setters
+    // Getters et Setters :
     public Patient getPatient() {
         return patient;
     }

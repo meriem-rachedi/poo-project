@@ -2,12 +2,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SessionCompte implements Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; //Enregistrer les compte dans un fichier
+
+    // Déclaration des attributs :
     private String utilisateur;
     private String mdp;
     private Patient patient;
     
-    //Constructeurs
+    //Constructeurs :
     public SessionCompte(){}
     public SessionCompte(String utilisateur, String mdp) {
         this.utilisateur = utilisateur;
@@ -20,7 +22,7 @@ public class SessionCompte implements Serializable{
         this.patient = patient;
     }
     
-    //Méthodes
+    //Méthodes :
     // Ajouter un compte pour le sauvegarder
 public boolean ajoutCompte(List<SessionCompte> listeCompte, SessionCompte compte) {
     if (listeCompte.isEmpty()) {
@@ -151,7 +153,7 @@ public boolean supprimerCompte(List<SessionCompte> listeCompte, String utilisate
         }
     }
 
-    //Getteurs et Setteurs
+    //Getteurs et Setteurs :
     public String getUtilisateur() {
         return utilisateur;
     }
